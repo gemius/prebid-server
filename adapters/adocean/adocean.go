@@ -10,6 +10,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/prebid/openrtb/v20/adcom1"
 	"github.com/prebid/openrtb/v20/openrtb2"
 	"github.com/prebid/prebid-server/v4/adapters"
 	"github.com/prebid/prebid-server/v4/config"
@@ -89,6 +90,13 @@ func validateImp(imp *openrtb2.Imp) error {
 	if imp.Banner == nil && imp.Video == nil {
 		return &errortypes.BadInput{
 			Message: fmt.Sprintf("ignoring imp id=%s: AdOcean supports only banner and instream video", imp.ID),
+		}
+	}
+	if imp.Video != nil && (imp.Video.Plcmt == adcom1.VideoPlcmtAccompanyingContent ||
+		imp.Video.Plcmt == adcom1.VideoPlcmtNoContent ||
+		imp.Video.Placement == adcom1.VideoPlacementInBanner) {
+		return &errortypes.BadInput{
+			Message: fmt.Sprintf("ignoring imp id=%s: AdOcean doesn't support outstream video", imp.ID),
 		}
 	}
 	return nil
