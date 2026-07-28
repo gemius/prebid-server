@@ -203,11 +203,10 @@ func buildQuery(request *openrtb2.BidRequest, imp *openrtb2.Imp, params *openrtb
 }
 
 func shortSlaveID(slaveID string) string {
-	rawSlaveID := strings.TrimPrefix(slaveID, "adocean")
-	if len(rawSlaveID) <= slaveIDLength {
-		return rawSlaveID
+	if len(slaveID) <= slaveIDLength {
+		return slaveID
 	}
-	return rawSlaveID[len(rawSlaveID)-slaveIDLength:]
+	return slaveID[len(slaveID)-slaveIDLength:]
 }
 
 func getBannerSizes(banner *openrtb2.Banner) []string {
