@@ -1,21 +1,18 @@
 package adocean
 
 import (
-	"errors"
 	"fmt"
 	"math/rand"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
-	"text/template"
 
 	"github.com/prebid/openrtb/v20/adcom1"
 	"github.com/prebid/openrtb/v20/openrtb2"
 	"github.com/prebid/prebid-server/v4/adapters"
 	"github.com/prebid/prebid-server/v4/config"
 	"github.com/prebid/prebid-server/v4/errortypes"
-	"github.com/prebid/prebid-server/v4/macros"
 	"github.com/prebid/prebid-server/v4/openrtb_ext"
 	"github.com/prebid/prebid-server/v4/util/jsonutil"
 	"github.com/prebid/prebid-server/v4/util/uuidutil"
@@ -57,20 +54,20 @@ type responseAdUnit struct {
 }
 
 type adapter struct {
-	endpointTemplate *template.Template
-	uuidGenerator    uuidutil.UUIDGenerator
+	endpoint      url.URL
+	uuidGenerator uuidutil.UUIDGenerator
 }
 
 // Builder builds a new instance of the AdOcean adapter for the given bidder with the given config.
 func Builder(bidderName openrtb_ext.BidderName, config config.Adapter, server config.Server) (adapters.Bidder, error) {
-	endpointTemplate, err := template.New("endpointTemplate").Parse(config.Endpoint)
+	endpoint, err := url.Parse(config.Endpoint)
 	if err != nil {
-		return nil, errors.New("unable to parse endpoint template")
+		return nil, fmt.Errorf("malformed endpoint URL: %w", err)
 	}
 
 	return &adapter{
-		endpointTemplate: endpointTemplate,
-		uuidGenerator:    uuidutil.UUIDRandomGenerator{},
+		endpoint:      *endpoint,
+		uuidGenerator: uuidutil.UUIDRandomGenerator{},
 	}, nil
 }
 
@@ -151,25 +148,8 @@ func parseImpExt(imp *openrtb2.Imp) (*openrtb_ext.ExtImpAdOcean, error) {
 	return &params, nil
 }
 
-func (a *adapter) resolveEndpointTemplate(emitterPrefix string) (string, error) {
-	endpoint, err := macros.ResolveMacros(a.endpointTemplate, macros.EndpointTemplateParams{Host: emitterPrefix})
-	if err != nil {
-		return "", &errortypes.BadInput{Message: "unable to resolve endpoint template: " + err.Error()}
-	}
-	return endpoint, nil
-}
-
 func (a *adapter) makeRequest(request *openrtb2.BidRequest, imp *openrtb2.Imp, params *openrtb_ext.ExtImpAdOcean) (*adapters.RequestData, error) {
-	endpoint, err := a.resolveEndpointTemplate(params.EmitterPrefix)
-	if err != nil {
-		return nil, err
-	}
-
-	requestURL, err := url.Parse(endpoint)
-	if err != nil {
-		return nil, &errortypes.BadInput{Message: "malformed endpoint URL: " + err.Error()}
-	}
-
+	requestURL := a.endpoint
 	randomizedPart := rand.Intn(90000000) + 10000000
 	if request.Test == 1 {
 		randomizedPart = 10000000

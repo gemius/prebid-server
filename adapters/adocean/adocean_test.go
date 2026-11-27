@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strings"
 	"testing"
-	"text/template"
 
 	"github.com/prebid/openrtb/v20/adcom1"
 	"github.com/prebid/openrtb/v20/openrtb2"
@@ -47,13 +46,6 @@ func (b *jsonTestBidder) MakeBids(internalRequest *openrtb2.BidRequest, external
 	return b.Bidder.MakeBids(internalRequest, externalRequest, response)
 }
 
-func TestEndpointTemplateMalformed(t *testing.T) {
-	_, err := Builder(openrtb_ext.BidderAdOcean, config.Adapter{Endpoint: "{{Malformed}}"}, config.Server{})
-	if err == nil {
-		t.Fatal("Builder should reject a malformed endpoint template")
-	}
-}
-
 func TestJsonSamples(t *testing.T) {
 	bidder, err := Builder(openrtb_ext.BidderAdOcean, config.Adapter{
 		Endpoint: "https://prebid-ads.adocean.pl",
@@ -70,8 +62,11 @@ func TestJsonSamples(t *testing.T) {
 }
 
 func TestMakeRequestURLLength(t *testing.T) {
-	endpointTemplate := template.Must(template.New("endpoint").Parse("https://prebid-ads.adocean.pl"))
-	bidder := adapter{endpointTemplate: endpointTemplate}
+	builtBidder, err := Builder(openrtb_ext.BidderAdOcean, config.Adapter{Endpoint: "https://prebid-ads.adocean.pl"}, config.Server{})
+	if err != nil {
+		t.Fatalf("Builder returned unexpected error: %v", err)
+	}
+	bidder := builtBidder.(*adapter)
 	width, height := int64(300), int64(250)
 	request := &openrtb2.BidRequest{Test: 1}
 	imp := &openrtb2.Imp{
@@ -245,19 +240,6 @@ func TestBuildQueryEmitterParamsCannotInjectReservedParams(t *testing.T) {
 				}
 			}
 		})
-	}
-}
-
-func TestResolveEndpointTemplate(t *testing.T) {
-	endpointTemplate := template.Must(template.New("endpoint").Parse("https://{{.Host}}.adocean.pl"))
-	bidder := adapter{endpointTemplate: endpointTemplate}
-	url, err := bidder.resolveEndpointTemplate("myao")
-	if err != nil {
-		t.Fatalf("resolveEndpointTemplate returned unexpected error: %v", err)
-	}
-	expectedURL := "https://myao.adocean.pl"
-	if url != expectedURL {
-		t.Fatalf("resolveEndpointTemplate returned %v, expected %v", url, expectedURL)
 	}
 }
 
