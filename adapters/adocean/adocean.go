@@ -29,6 +29,7 @@ const (
 
 var reservedEmitterParams = map[string]struct{}{
 	"pbsrv_v":      {},
+	"emitter":      {},
 	"id":           {},
 	"slaves":       {},
 	"gdpr":         {},
@@ -219,6 +220,7 @@ func buildQuery(request *openrtb2.BidRequest, imp *openrtb2.Imp, params *openrtb
 	}
 
 	query.Set("pbsrv_v", adapterVersion)
+	query.Set("emitter", params.EmitterPrefix)
 	query.Set("id", params.MasterID)
 	query.Set("slaves", shortSlaveID(params.SlaveID))
 

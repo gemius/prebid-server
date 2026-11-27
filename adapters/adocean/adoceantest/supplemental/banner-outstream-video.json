@@ -29,7 +29,7 @@
   "httpCalls": [
     {
       "expectedRequest": {
-        "uri": "https://myao.adocean.pl/_10000000/ad.json?aosize=300x250&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&pbsrv_v=2.0.0&slaves=zpniqismex",
+        "uri": "https://prebid-ads.adocean.pl/_10000000/ad.json?aosize=300x250&emitter=myao&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&pbsrv_v=2.0.0&slaves=zpniqismex",
         "headers": {
           "Accept": ["application/json"],
           "Content-Type": ["application/json;charset=utf-8"]

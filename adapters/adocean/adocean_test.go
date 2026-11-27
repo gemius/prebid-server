@@ -56,7 +56,7 @@ func TestEndpointTemplateMalformed(t *testing.T) {
 
 func TestJsonSamples(t *testing.T) {
 	bidder, err := Builder(openrtb_ext.BidderAdOcean, config.Adapter{
-		Endpoint: "https://{{.Host}}.adocean.pl",
+		Endpoint: "https://prebid-ads.adocean.pl",
 	}, config.Server{})
 	if err != nil {
 		t.Fatalf("Builder returned unexpected error: %v", err)
@@ -70,7 +70,7 @@ func TestJsonSamples(t *testing.T) {
 }
 
 func TestMakeRequestURLLength(t *testing.T) {
-	endpointTemplate := template.Must(template.New("endpoint").Parse("https://{{.Host}}.adocean.pl"))
+	endpointTemplate := template.Must(template.New("endpoint").Parse("https://prebid-ads.adocean.pl"))
 	bidder := adapter{endpointTemplate: endpointTemplate}
 	width, height := int64(300), int64(250)
 	request := &openrtb2.BidRequest{Test: 1}
@@ -117,10 +117,12 @@ func TestBuildQueryEmitterParamsCannotOverrideAdapterParams(t *testing.T) {
 		Format: []openrtb2.Format{{W: 300, H: 250}},
 	}}
 	params := &openrtb_ext.ExtImpAdOcean{
-		MasterID: "master-id",
-		SlaveID:  "adoceanmyaozpniqismex",
+		EmitterPrefix: "myao",
+		MasterID:      "master-id",
+		SlaveID:       "adoceanmyaozpniqismex",
 		EmitterRequestParams: map[string]any{
 			"pbsrv_v":      "override",
+			"emitter":      "override",
 			"id":           "override",
 			"slaves":       "override",
 			"gdpr":         "override",
@@ -138,6 +140,7 @@ func TestBuildQueryEmitterParamsCannotOverrideAdapterParams(t *testing.T) {
 
 	expected := map[string]string{
 		"pbsrv_v":      adapterVersion,
+		"emitter":      "myao",
 		"id":           "master-id",
 		"slaves":       "zpniqismex",
 		"gdpr":         "1",
