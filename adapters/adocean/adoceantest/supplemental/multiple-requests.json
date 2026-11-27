@@ -68,7 +68,7 @@
   "httpCalls": [
     {
       "expectedRequest": {
-        "uri": "https://myao.adocean.pl/_10000000/ad.json?aosize=300x250&aouserid=gemius-user-id&gdpr=1&gdpr_consent=BOQHk-4OSlWKFBoABBPLBd-AAAAgWAHAACAAsAPQBSACmgFTAOkA&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&pbsrv_v=2.0.0&slaves=zpniqismex",
+        "uri": "https://prebid-ads.adocean.pl/_10000000/ad.json?aosize=300x250&aouserid=gemius-user-id&emitter=myao&gdpr=1&gdpr_consent=BOQHk-4OSlWKFBoABBPLBd-AAAAgWAHAACAAsAPQBSACmgFTAOkA&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&pbsrv_v=2.0.0&slaves=zpniqismex",
         "headers": {
           "Accept": ["application/json"],
           "Content-Type": ["application/json;charset=utf-8"],
@@ -98,7 +98,7 @@
     },
     {
       "expectedRequest": {
-        "uri": "https://myao.adocean.pl/_10000000/ad.json?aosize=400x600&aouserid=gemius-user-id&gdpr=1&gdpr_consent=BOQHk-4OSlWKFBoABBPLBd-AAAAgWAHAACAAsAPQBSACmgFTAOkA&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&pbsrv_v=2.0.0&slaves=wafpdwlrks",
+        "uri": "https://prebid-ads.adocean.pl/_10000000/ad.json?aosize=400x600&aouserid=gemius-user-id&emitter=myao&gdpr=1&gdpr_consent=BOQHk-4OSlWKFBoABBPLBd-AAAAgWAHAACAAsAPQBSACmgFTAOkA&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&pbsrv_v=2.0.0&slaves=wafpdwlrks",
         "headers": {
           "Accept": ["application/json"],
           "Content-Type": ["application/json;charset=utf-8"],
@@ -128,7 +128,7 @@
     },
     {
       "expectedRequest": {
-        "uri": "https://myao.adocean.pl/_10000000/ad.json?aouserid=gemius-user-id&dur=60&gdpr=1&gdpr_consent=BOQHk-4OSlWKFBoABBPLBd-AAAAgWAHAACAAsAPQBSACmgFTAOkA&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&maxdur=60&mindur=10&pbsrv_v=2.0.0&slaves=lifgmvmpfj&spots=1",
+        "uri": "https://prebid-ads.adocean.pl/_10000000/ad.json?aouserid=gemius-user-id&dur=60&emitter=myao&gdpr=1&gdpr_consent=BOQHk-4OSlWKFBoABBPLBd-AAAAgWAHAACAAsAPQBSACmgFTAOkA&id=tmYF.DMl7ZBq.Nqt2Bq4FutQTJfTpxCOmtNPZoQUDcL.G7&maxdur=60&mindur=10&pbsrv_v=2.0.0&slaves=lifgmvmpfj&spots=1",
         "headers": {
           "Accept": ["application/json"],
           "Content-Type": ["application/json;charset=utf-8"],
